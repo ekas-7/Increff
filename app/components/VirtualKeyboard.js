@@ -66,7 +66,7 @@ const VirtualKeyboard = ({ onKeyPress, onBackspace, disabled }) => {
   };
 
   const getKeyClass = (key) => {
-    const baseClass = "m-1 px-3 py-2 bg-white border border-gray-300 rounded-lg hover:bg-gray-100 active:bg-gray-200 transition-colors duration-150 text-center min-w-[40px] text-sm font-medium";
+    const baseClass = "m-1 px-3 py-2 bg-gray-700 border border-gray-600 rounded-lg hover:bg-gray-600 active:bg-gray-500 transition-colors duration-150 text-center min-w-[40px] text-sm font-medium text-gray-100";
     
     if (disabled) {
       return baseClass + " opacity-50 cursor-not-allowed";
@@ -74,7 +74,7 @@ const VirtualKeyboard = ({ onKeyPress, onBackspace, disabled }) => {
 
     // Special styling for letters when caps lock or shift is active
     if (key.match(/[a-z]/) && (isShiftPressed || isCapsLock)) {
-      return baseClass + " bg-blue-100 border-blue-300 text-blue-800 cursor-pointer";
+      return baseClass + " bg-blue-700 border-blue-600 text-blue-200 cursor-pointer";
     }
 
     return baseClass + " cursor-pointer";
@@ -84,18 +84,18 @@ const VirtualKeyboard = ({ onKeyPress, onBackspace, disabled }) => {
     const baseClass = "m-1 px-4 py-2 border rounded-lg transition-colors duration-150 text-sm font-medium";
     
     if (disabled) {
-      return baseClass + " bg-gray-200 border-gray-300 opacity-50 cursor-not-allowed";
+      return baseClass + " bg-gray-800 border-gray-700 text-gray-500 opacity-50 cursor-not-allowed";
     }
 
     if (isActive) {
-      return baseClass + " bg-blue-500 border-blue-600 text-white cursor-pointer";
+      return baseClass + " bg-blue-600 border-blue-500 text-white cursor-pointer";
     }
 
-    return baseClass + " bg-gray-200 border-gray-300 hover:bg-gray-300 active:bg-gray-400 cursor-pointer";
+    return baseClass + " bg-gray-700 border-gray-600 text-gray-100 hover:bg-gray-600 active:bg-gray-500 cursor-pointer";
   };
 
   return (
-    <div className="bg-gray-50 p-4 rounded-lg border border-gray-200">
+    <div className="bg-gray-900 p-4 rounded-lg border border-gray-700">
       {/* Keyboard rows */}
       {keyboardRows.map((row, rowIndex) => (
         <div key={rowIndex} className="flex justify-center mb-2">
@@ -197,13 +197,13 @@ const VirtualKeyboard = ({ onKeyPress, onBackspace, disabled }) => {
       </div>
 
       {/* Status indicators */}
-      <div className="flex justify-center gap-4 mt-3 text-xs text-gray-600">
-        <div className={`flex items-center gap-1 ${isCapsLock ? 'text-blue-600 font-medium' : ''}`}>
-          <div className={`w-2 h-2 rounded-full ${isCapsLock ? 'bg-blue-500' : 'bg-gray-300'}`}></div>
+      <div className="flex justify-center gap-4 mt-3 text-xs text-gray-300">
+        <div className={`flex items-center gap-1 ${isCapsLock ? 'text-blue-400 font-medium' : ''}`}>
+          <div className={`w-2 h-2 rounded-full ${isCapsLock ? 'bg-blue-500' : 'bg-gray-600'}`}></div>
           Caps Lock {isCapsLock ? 'ON' : 'OFF'}
         </div>
-        <div className={`flex items-center gap-1 ${isShiftPressed ? 'text-blue-600 font-medium' : ''}`}>
-          <div className={`w-2 h-2 rounded-full ${isShiftPressed ? 'bg-blue-500' : 'bg-gray-300'}`}></div>
+        <div className={`flex items-center gap-1 ${isShiftPressed ? 'text-blue-400 font-medium' : ''}`}>
+          <div className={`w-2 h-2 rounded-full ${isShiftPressed ? 'bg-blue-500' : 'bg-gray-600'}`}></div>
           Shift {isShiftPressed ? 'ON' : 'OFF'}
         </div>
       </div>

@@ -107,14 +107,14 @@ export default function Home() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 p-4">
+    <div className="min-h-screen bg-gradient-to-br from-gray-900 to-black p-4">
       <div className="max-w-6xl mx-auto">
         {/* Header */}
         <div className="text-center mb-8">
-          <h1 className="text-4xl font-bold text-gray-800 mb-2">
+          <h1 className="text-4xl font-bold text-gray-100 mb-2">
             AI-Enhanced Autocomplete System
           </h1>
-          <p className="text-gray-600">
+          <p className="text-gray-300">
             Start typing or use voice input to experience intelligent text completion
           </p>
         </div>
@@ -123,33 +123,33 @@ export default function Home() {
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
           {/* Text Input Area */}
           <div className="lg:col-span-2 space-y-4">
-            <div className="bg-white rounded-lg shadow-lg p-6">
-              <h2 className="text-xl font-semibold text-gray-800 mb-4">Text Input</h2>
+            <div className="bg-gray-800 border border-gray-700 rounded-lg shadow-lg p-6">
+              <h2 className="text-xl font-semibold text-gray-100 mb-4">Text Input</h2>
               <div className="relative">
                 <textarea
                   ref={textAreaRef}
                   value={currentText}
                   onChange={(e) => setCurrentText(e.target.value)}
-                  className="w-full h-32 p-4 border border-gray-300 rounded-lg text-lg resize-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                  className="w-full h-32 p-4 border border-gray-600 bg-gray-900 text-gray-100 rounded-lg text-lg resize-none focus:ring-2 focus:ring-blue-500 focus:border-transparent placeholder-gray-400"
                   placeholder="Start typing or use the virtual keyboard..."
                   readOnly
                 />
                 {isLoading && (
                   <div className="absolute top-2 right-2">
-                    <div className="animate-spin rounded-full h-6 w-6 border-b-2 border-blue-500"></div>
+                    <div className="animate-spin rounded-full h-6 w-6 border-b-2 border-blue-400"></div>
                   </div>
                 )}
               </div>
               
               {/* Status Indicator */}
-              <div className="mt-2 text-sm text-gray-600">
+              <div className="mt-2 text-sm text-gray-300">
                 Status: {isWordComplete ? 'Ready for next word' : 'Typing current word'}
               </div>
             </div>
 
             {/* Virtual Keyboard */}
-            <div className="bg-white rounded-lg shadow-lg p-6">
-              <h2 className="text-xl font-semibold text-gray-800 mb-4">Virtual Keyboard</h2>
+            <div className="bg-gray-800 border border-gray-700 rounded-lg shadow-lg p-6">
+              <h2 className="text-xl font-semibold text-gray-100 mb-4">Virtual Keyboard</h2>
               <VirtualKeyboard
                 onKeyPress={handleKeyPress}
                 onBackspace={handleBackspace}
@@ -158,16 +158,16 @@ export default function Home() {
             </div>
 
             {/* Voice Input */}
-            <div className="bg-white rounded-lg shadow-lg p-6">
-              <h2 className="text-xl font-semibold text-gray-800 mb-4">Voice Input</h2>
+            <div className="bg-gray-800 border border-gray-700 rounded-lg shadow-lg p-6">
+              <h2 className="text-xl font-semibold text-gray-100 mb-4">Voice Input</h2>
               <VoiceInput onTranscription={handleVoiceTranscription} />
             </div>
           </div>
 
           {/* Suggestions Panel */}
           <div className="lg:col-span-1">
-            <div className="bg-white rounded-lg shadow-lg p-6 sticky top-4">
-              <h2 className="text-xl font-semibold text-gray-800 mb-4">
+            <div className="bg-gray-800 border border-gray-700 rounded-lg shadow-lg p-6 sticky top-4">
+              <h2 className="text-xl font-semibold text-gray-100 mb-4">
                 {isWordComplete ? 'Next Word Suggestions' : 'Word Completion'}
               </h2>
               <SuggestionPanel
@@ -181,7 +181,7 @@ export default function Home() {
         </div>
 
         {/* Footer */}
-        <div className="text-center mt-8 text-gray-500">
+        <div className="text-center mt-8 text-gray-400">
           <p>Powered by OpenAI GPT and MongoDB</p>
         </div>
       </div>

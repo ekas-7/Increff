@@ -123,10 +123,10 @@ const VoiceInput = ({ onTranscription }) => {
           className={`
             relative w-20 h-20 rounded-full border-4 transition-all duration-300 flex items-center justify-center
             ${isRecording 
-              ? 'bg-red-500 border-red-600 hover:bg-red-600 animate-pulse shadow-lg' 
+              ? 'bg-red-600 border-red-500 hover:bg-red-700 animate-pulse shadow-lg' 
               : isProcessing
-                ? 'bg-yellow-500 border-yellow-600 cursor-not-allowed'
-                : 'bg-blue-500 border-blue-600 hover:bg-blue-600 hover:shadow-lg'
+                ? 'bg-yellow-600 border-yellow-500 cursor-not-allowed'
+                : 'bg-blue-600 border-blue-500 hover:bg-blue-700 hover:shadow-lg'
             }
             ${!isProcessing ? 'active:scale-95' : ''}
           `}
@@ -151,9 +151,9 @@ const VoiceInput = ({ onTranscription }) => {
         {/* Recording status */}
         <div className="mt-3 text-center">
           <div className={`text-lg font-medium ${
-            isRecording ? 'text-red-600' : 
-            isProcessing ? 'text-yellow-600' : 
-            'text-gray-600'
+            isRecording ? 'text-red-400' : 
+            isProcessing ? 'text-yellow-400' : 
+            'text-gray-300'
           }`}>
             {isRecording ? 'Recording...' : 
              isProcessing ? 'Processing...' : 
@@ -161,7 +161,7 @@ const VoiceInput = ({ onTranscription }) => {
           </div>
           
           {isRecording && (
-            <div className="text-sm text-gray-500 mt-1">
+            <div className="text-sm text-gray-400 mt-1">
               {formatTime(recordingTime)}
             </div>
           )}
@@ -169,9 +169,9 @@ const VoiceInput = ({ onTranscription }) => {
       </div>
 
       {/* Recording controls and info */}
-      <div className="bg-gray-50 rounded-lg p-4">
-        <h3 className="text-sm font-medium text-gray-700 mb-2">Voice Instructions</h3>
-        <ul className="text-xs text-gray-600 space-y-1">
+      <div className="bg-gray-800 border border-gray-700 rounded-lg p-4">
+        <h3 className="text-sm font-medium text-gray-200 mb-2">Voice Instructions</h3>
+        <ul className="text-xs text-gray-300 space-y-1">
           <li>• Click the microphone to start recording</li>
           <li>• Speak clearly and at normal pace</li>
           <li>• Click again to stop and process</li>
@@ -181,13 +181,13 @@ const VoiceInput = ({ onTranscription }) => {
         {/* Recording quality indicator */}
         {isRecording && (
           <div className="mt-3 flex items-center gap-2">
-            <span className="text-xs text-gray-600">Audio Quality:</span>
+            <span className="text-xs text-gray-300">Audio Quality:</span>
             <div className="flex gap-1">
               {[1, 2, 3, 4, 5].map((bar) => (
                 <div
                   key={bar}
                   className={`w-1 h-3 rounded-full ${
-                    bar <= 3 ? 'bg-green-500' : 'bg-gray-300'
+                    bar <= 3 ? 'bg-green-500' : 'bg-gray-600'
                   } animate-pulse`}
                   style={{ animationDelay: `${bar * 100}ms` }}
                 />
@@ -199,24 +199,24 @@ const VoiceInput = ({ onTranscription }) => {
 
       {/* Error display */}
       {error && (
-        <div className="bg-red-50 border border-red-200 rounded-lg p-3">
+        <div className="bg-red-900 border border-red-700 rounded-lg p-3">
           <div className="flex items-center gap-2">
-            <svg className="w-5 h-5 text-red-500" fill="currentColor" viewBox="0 0 20 20">
+            <svg className="w-5 h-5 text-red-400" fill="currentColor" viewBox="0 0 20 20">
               <path fillRule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z" clipRule="evenodd" />
             </svg>
-            <span className="text-sm text-red-700">{error}</span>
+            <span className="text-sm text-red-200">{error}</span>
           </div>
         </div>
       )}
 
       {/* Browser compatibility warning */}
       {typeof window !== 'undefined' && !navigator.mediaDevices && (
-        <div className="bg-yellow-50 border border-yellow-200 rounded-lg p-3">
+        <div className="bg-yellow-900 border border-yellow-700 rounded-lg p-3">
           <div className="flex items-center gap-2">
-            <svg className="w-5 h-5 text-yellow-500" fill="currentColor" viewBox="0 0 20 20">
+            <svg className="w-5 h-5 text-yellow-400" fill="currentColor" viewBox="0 0 20 20">
               <path fillRule="evenodd" d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.743-2.98l5.58-9.92zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z" clipRule="evenodd" />
             </svg>
-            <span className="text-sm text-yellow-700">
+            <span className="text-sm text-yellow-200">
               Voice input may not be supported in this browser. Try Chrome, Firefox, or Safari.
             </span>
           </div>
