@@ -51,9 +51,17 @@ const SuggestionPanel = ({ suggestions, onSuggestionClick, isLoading, suggestion
             disabled={isLoading}
           >
             <div className="flex items-center justify-between">
-              <span className="text-gray-100 font-medium group-hover:text-blue-200">
-                {suggestion}
-              </span>
+              <div className="flex items-center gap-3">
+                {/* Suggestion number for keyboard shortcut */}
+                {index < 9 && (
+                  <span className="flex items-center justify-center w-6 h-6 bg-gray-700 text-gray-300 text-xs rounded-full font-mono">
+                    {index + 1}
+                  </span>
+                )}
+                <span className="text-gray-100 font-medium group-hover:text-blue-200">
+                  {suggestion}
+                </span>
+              </div>
               <div className="flex items-center gap-2">
                 {/* Suggestion type icon */}
                 <span className="text-xs text-gray-400">
@@ -61,7 +69,7 @@ const SuggestionPanel = ({ suggestions, onSuggestionClick, isLoading, suggestion
                 </span>
                 {/* Click indicator */}
                 <span className="text-xs text-gray-500 group-hover:text-blue-300">
-                  Click to use
+                  {index < 9 ? `Alt+${index + 1}` : 'Click to use'}
                 </span>
               </div>
             </div>
@@ -80,10 +88,15 @@ const SuggestionPanel = ({ suggestions, onSuggestionClick, isLoading, suggestion
           <span>💡</span>
           <span className="font-medium">Tip:</span>
         </div>
-        {suggestionType === 'next-word' 
-          ? 'These suggestions are based on AI analysis and your typing patterns'
-          : 'Type more letters to get better word completions'
-        }
+        <div className="mb-1">
+          {suggestionType === 'next-word' 
+            ? 'These suggestions are based on AI analysis and your typing patterns'
+            : 'Type more letters to get better word completions'
+          }
+        </div>
+        <div className="text-xs text-gray-400">
+          Use <kbd className="px-1 py-0.5 bg-gray-600 rounded text-gray-200">Tab</kbd> for first suggestion or <kbd className="px-1 py-0.5 bg-gray-600 rounded text-gray-200">Alt+1-9</kbd> for numbered suggestions
+        </div>
       </div>
     </div>
   );

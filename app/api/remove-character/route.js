@@ -1,10 +1,7 @@
-import dbConnect from '../../../lib/mongodb';
 import { getAutocompleteEngine } from '../../../lib/autocomplete';
 
 export async function POST(request) {
   try {
-    await dbConnect();
-    
     const engine = getAutocompleteEngine();
     await engine.removeCharacter();
     

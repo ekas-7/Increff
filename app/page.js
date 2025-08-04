@@ -106,6 +106,85 @@ export default function Home() {
     }
   };
 
+  // Handle physical keyboard input
+  const handlePhysicalKeyDown = async (e) => {
+    if (isLoading) return; // Ignore input while processing
+
+    // Handle special key combinations
+    if (e.ctrlKey || e.metaKey) {
+      if (e.key === 'a') {
+        // Allow Ctrl+A/Cmd+A for select all
+        return;
+      } else if (e.key === 'c' || e.key === 'v' || e.key === 'x') {
+        // Allow copy/paste/cut operations
+        return;
+      }
+      // Prevent other Ctrl/Cmd combinations
+      e.preventDefault();
+      return;
+    }
+
+    // Handle Tab key to select first suggestion
+    if (e.key === 'Tab' && suggestions.length > 0) {
+      e.preventDefault();
+      await handleSuggestionClick(suggestions[0]);
+      return;
+    }
+
+    // Handle number keys (1-9) to select suggestions by index
+    if (e.key >= '1' && e.key <= '9' && e.altKey && suggestions.length > 0) {
+      e.preventDefault();
+      const index = parseInt(e.key) - 1;
+      if (index < suggestions.length) {
+        await handleSuggestionClick(suggestions[index]);
+      }
+      return;
+    }
+
+    // Handle Enter key to add a new line or space
+    if (e.key === 'Enter') {
+      e.preventDefault();
+      await handleKeyPress('\n');
+      return;
+    }
+
+    // Handle arrow keys (ignore for now, could be used for suggestion navigation)
+    if (['ArrowUp', 'ArrowDown', 'ArrowLeft', 'ArrowRight'].includes(e.key)) {
+      e.preventDefault();
+      return;
+    }
+
+    e.preventDefault(); // Prevent default textarea behavior
+    
+    if (e.key === 'Backspace') {
+      await handleBackspace();
+    } else if (e.key.length === 1) {
+      // Single character input (letters, numbers, symbols, space)
+      await handleKeyPress(e.key);
+    }
+  };
+
+  // Handle direct text change (for copy-paste or other text modifications)
+  const handleTextChange = async (e) => {
+    const newText = e.target.value;
+    
+    if (newText === currentText) return; // No change
+    
+    if (newText.length > currentText.length) {
+      // Text was added (could be paste or other input)
+      const addedText = newText.slice(currentText.length);
+      for (const char of addedText) {
+        await handleKeyPress(char);
+      }
+    } else if (newText.length < currentText.length) {
+      // Text was removed
+      const removedCount = currentText.length - newText.length;
+      for (let i = 0; i < removedCount; i++) {
+        await handleBackspace();
+      }
+    }
+  };
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-gray-900 to-black p-4">
       <div className="max-w-6xl mx-auto">
@@ -129,10 +208,11 @@ export default function Home() {
                 <textarea
                   ref={textAreaRef}
                   value={currentText}
-                  onChange={(e) => setCurrentText(e.target.value)}
+                  onChange={handleTextChange}
+                  onKeyDown={handlePhysicalKeyDown}
                   className="w-full h-32 p-4 border border-gray-600 bg-gray-900 text-gray-100 rounded-lg text-lg resize-none focus:ring-2 focus:ring-blue-500 focus:border-transparent placeholder-gray-400"
-                  placeholder="Start typing or use the virtual keyboard..."
-                  readOnly
+                  placeholder="Start typing with your keyboard, use the virtual keyboard, or voice input..."
+                  disabled={isLoading}
                 />
                 {isLoading && (
                   <div className="absolute top-2 right-2">
@@ -142,8 +222,22 @@ export default function Home() {
               </div>
               
               {/* Status Indicator */}
-              <div className="mt-2 text-sm text-gray-300">
-                Status: {isWordComplete ? 'Ready for next word' : 'Typing current word'}
+              <div className="mt-2 flex justify-between items-center text-sm text-gray-300">
+                <span>Status: {isWordComplete ? 'Ready for next word' : 'Typing current word'}</span>
+                <span className="text-xs text-gray-400">💡 Use physical keyboard, virtual keyboard, or voice input</span>
+              </div>
+
+              {/* Keyboard Shortcuts Help */}
+              <div className="mt-3 p-3 bg-gray-700 rounded-lg">
+                <div className="text-xs text-gray-300 font-medium mb-2">⌨️ Keyboard Shortcuts:</div>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-1 text-xs text-gray-400">
+                  <div><kbd className="px-1 py-0.5 bg-gray-600 rounded text-gray-200">Tab</kbd> - Use first suggestion</div>
+                  <div><kbd className="px-1 py-0.5 bg-gray-600 rounded text-gray-200">Alt+1-9</kbd> - Use suggestion by number</div>
+                  <div><kbd className="px-1 py-0.5 bg-gray-600 rounded text-gray-200">Enter</kbd> - New line</div>
+                  <div><kbd className="px-1 py-0.5 bg-gray-600 rounded text-gray-200">Backspace</kbd> - Delete character</div>
+                  <div><kbd className="px-1 py-0.5 bg-gray-600 rounded text-gray-200">Ctrl+A</kbd> - Select all</div>
+                  <div><kbd className="px-1 py-0.5 bg-gray-600 rounded text-gray-200">Ctrl+C/V</kbd> - Copy/Paste</div>
+                </div>
               </div>
             </div>
 

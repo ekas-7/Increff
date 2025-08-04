@@ -1,10 +1,7 @@
-import dbConnect from '../../../lib/mongodb';
 import { getAutocompleteEngine } from '../../../lib/autocomplete';
 
 export async function POST(request) {
   try {
-    await dbConnect();
-    
     const { suggestion } = await request.json();
     
     if (typeof suggestion !== 'string' || suggestion.trim().length === 0) {
